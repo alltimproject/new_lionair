@@ -241,8 +241,9 @@ class Refund extends CI_Controller{
         'tb_refund_pessenger.no_refund' => $norefund
       );
       $wherekdbooking = array(
-          'tb_detail.kd_booking' => $norefund
+          'tb_detail.kd_booking' => $kd_booking
       );
+
 
         $config = [
               'useragent' => 'CodeIgniter',
