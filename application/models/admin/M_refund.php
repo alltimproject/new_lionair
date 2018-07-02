@@ -166,7 +166,6 @@ class M_refund extends CI_Model{
     $this->db->where($where);
     $this->db->where('tb_refund.refund_status','onproses');
 
-
     return $this->db->get()->result();
   }
 
