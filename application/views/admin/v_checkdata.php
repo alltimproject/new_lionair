@@ -123,9 +123,9 @@ foreach ($checkdataid as $key) {
           <!-- refund cancel -->
           <div class="row" align="center" style="padding-top:60px; padding-bottom:20px;">
             <div class="col-md-6">
-              <input type="text" name="no_refund" value="<?= $no_refund ?>">
-              <input type="text" name="namalengkap" value="<?= $nama_depan.' '.$nama_belakang ?>">
-              <input type="text" name="email" value="<?= $email_user ?>">
+              <input type="hidden" name="no_refund" value="<?= $no_refund ?>">
+              <input type="hidden" name="namalengkap" value="<?= $nama_depan.' '.$nama_belakang ?>">
+              <input type="hidden" name="email" value="<?= $email_user ?>">
               <input type="submit" name="cancelrefund" value="BATAL REFUND" onclick="return confirm('Apakah ingin membatalkan refund ?')" class="btn btn-warning" style="width:50%">
             </div>
           </form>
@@ -224,6 +224,52 @@ foreach ($checkdataid as $key) {
                   <input type="hidden" name="email" value="<?= $email_user ?>">
                   <input type="submit" name="confirmrefund" class="btn btn-warning" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
                 </form>
+
+              <?php }else{ ?>
+                <form action="<?= base_url('adm/refund/match_all') ?>" method="post">
+                  <?php
+                  //DATA BOOKING
+                  foreach ($data_booking as $key ):?>
+                  <input type="hidden" name="data_gelar" value="<?= $key->gelar ?>">
+                  <input type="hidden" name="data_alamat" value="<?= $key->alamat ?>">
+                  <input type="hidden" name="data_telp" value="<?= $key->no_tlp ?>">
+                  <input type="hidden" name="data_tipebooking" value="<?= $key->tipe_booking ?>">
+                  <?php endforeach; ?>
+
+                  <!-- refun penerbangan -->
+                  <?php foreach($getpenerbanganRefund->result() as $refunPener): ?>
+                  <input type="text" name="no_refund_penerbangan[]" value="<?= $refunPener->no_refund ?>"><br/>
+                  <input type="text" name="no_penerbangan[]" value="<?= $refunPener->no_penerbangan ?>"><br>
+                  <?php endforeach ?>
+
+                  <!-- not penerbangan -->
+                  <?php foreach($getNotpenerbangan->result() as $notPenerbangan): ?>
+                    <input type="text" name="notPenerbangan" value="<?= $notPenerbangan->no_penerbangan ?>">
+                  <?php endforeach; ?>
+                  <!-- data tiket refund -->
+                  <?php foreach($gettiketRefund->result() as $tiket): ?>
+                  <input type="text" name="no_tiket[]" value="<?= $tiket->no_tiket ?>">
+                  <input type="text" name="nama_pessenger[]" value="<?= $tiket->nama_pessenger ?>">
+                  <input type="text" name="tgl_lahir[]" value="<?= $tiket->tgl_lahir ?>">
+                  <input type="text" name="tipe_pessenger[]" value="<?= $tiket->tipe_pessenger ?>">
+                  <input type="text" name="kd_booking_tiket[]" value="<?= $tiket->kd_booking ?>">
+                  <?php endforeach;  ?>
+
+                  <!-- acakhuruf -->
+                  <input type="text" name="acakhuruf" value="<?= 'BO'.acakhuruf(4) ?>">
+
+                  <input type="hidden" name="total" value="<?= $refund_total ?>">
+                  <input type="hidden" name="kd_booking" value="<?= $kd_booking ?>">
+                  <input type="hidden" name="no_refund" value="<?= $no_refund ?>">
+                  <input type="hidden" name="namalengkap" value="<?= $nama_depan.' '.$nama_belakang ?>">
+                  <input type="hidden" name="nama_belakang" value="<?= $nama_belakang ?>">
+                  <input type="hidden" name="nama_depan" value="<?= $nama_depan ?>">
+                  <input type="hidden" name="email" value="<?= $email_user ?>">
+                  <input type="submit" name="confirmrefund" class="btn btn-danger" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
+                </form>
+
+
+
 
               <?php } ?>
             </div>

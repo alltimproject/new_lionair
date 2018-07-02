@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_refund extends CI_Model{
 
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->helper('acakhuruf');
+  }
   // function get_refund()
   // {
   //   //parsing json encode
@@ -84,6 +89,12 @@ class M_refund extends CI_Model{
     $this->db->where('tb_refund_detail.no_refund', $norefund);
     $this->db->where($wherekdbooking);
     return $this->db->get();
+  }
+  //not Penerbangan
+  function notPenerbangan($kd_booking, $no_penerbangan)
+  {
+  $query = "SELECT * FROM tb_detail WHERE kd_booking = '$kd_booking' AND NOT no_penerbangan = '$no_penerbangan' ";
+  return $this->db->query($query);
   }
   function getTiketRefund($norefund)
   {
@@ -354,7 +365,7 @@ class M_refund extends CI_Model{
     }
   }
 
-  
+
 
   //test agar ini tidak berfungsi ini tidak terpakai
   function insertNewkodeBooking()
@@ -374,4 +385,142 @@ class M_refund extends CI_Model{
     );
     $this->db->insert('tb_booking', $data);
   }
+
+
+
+
+
+  function match_insert_new_kodebooking()
+  {
+    $acakhuruf        = $this->input->post('acakhuruf');
+    //data booking
+    $data_gelar       = $this->input->post('data_gelar');
+    $data_alamat      = $this->input->post('data_alamat');
+    $data_telp        = $this->input->post('data_telp');
+    $data_tipebooking = $this->input->post('data_tipebooking');
+    //---------------------------------------------------------
+
+    //---------------------------------------------------------
+    $no_refund     = $this->input->post('no_refund');
+    $nama_depan    = $this->input->post('nama_depan');
+    $nama_belakang = $this->input->post('nama_belakang');
+    $nama_lengkap  = $this->input->post('namalengkap');
+    $email         = $this->input->post('email');
+    //---------------------------------------------------------
+
+    //array--------------------------------------------------------------
+    $no_refund_penerbangan = $this->input->post('no_refund_penerbangan');
+    $no_penerbangan        = $this->input->post('no_penerbangan');
+    //-------------------------------------------------------------------
+    //not penerbangan
+    $not_penerbangan = $this->input->post('notPenerbangan');
+    //----------------
+
+
+    //kode booking baru generate-----------------------------
+    $data = array(
+      'kd_booking'     => $acakhuruf,
+      'status'         => 'Confirmed',
+      'tipe_booking'   => $data_tipebooking,
+      'gelar'          => $data_gelar,
+      'alamat'         => $data_alamat,
+      'no_tlp'         => $data_telp,
+      'nama_depan'     => $nama_depan,
+      'nama_belakang'  => $nama_belakang,
+      'email'          => $email
+    );
+    $this->db->insert('tb_booking', $data);
+
+    $datadetail = array(
+      'kd_booking' => $acakhuruf,
+      'no_penerbangan' => $not_penerbangan
+    );
+    $this->db->insert('tb_detail', $datadetail);
+    $this->updatePessengermatch();
+
+
+
+    //kode booking refund insert ------------------------------
+    $data2 = array(
+      'kd_booking'     => $no_refund,
+      'status'         => 'RFN',
+      'tipe_booking'   => $data_tipebooking,
+      'gelar'          => $data_gelar,
+      'alamat'         => $data_alamat,
+      'no_tlp'         => $data_telp,
+      'nama_depan'     => $nama_depan,
+      'nama_belakang'  => $nama_belakang,
+      'email'          => $email
+    );
+    $this->db->insert('tb_booking',$data2);
+    //--------
+    //post detail---------------------------------------------
+    $post = $this->input->post();
+    $array = array();
+    foreach($post['no_tiket'] AS $key => $val)
+    {
+      $dataArray[] = array(
+        'no_tiket'       => $post['no_tiket'][$key],
+        'nama_pessenger' => $post['nama_pessenger'][$key],
+        'tgl_lahir'      => $post['tgl_lahir'][$key],
+        'tipe_pessenger' => $post['tipe_pessenger'][$key],
+        'kd_booking'     => $no_refund
+      );
+    }
+    $this->saveDetail($dataArray);
+    //---------------------------------------------------------
+
+
+    //insert detail
+    $count = count($no_refund_penerbangan);
+    $sql   = "INSERT INTO tb_detail (kd_booking,no_penerbangan) VALUES ";
+    for($i=0; $i<$count; $i++)
+    {
+      $sql .= "('{$no_refund_penerbangan[$i]}','{$no_penerbangan[$i]}')";
+      $sql .= ",";
+    }
+    $sql    = rtrim($sql, ",");
+    $insert = $this->db->query($sql);
+    //-------------
+  }
+
+  // function last
+  function saveDetail($result = array() )
+  {
+    $total_array = count($result);
+    if($total_array != 0 )
+    {
+      return $this->db->insert_batch('tb_pessenger', $result);
+    }
+  }
+
+  function updatePessengermatch()
+  {
+    $acakhuruf = $this->input->post('acakhuruf');
+    //update passenger
+    $no_tiket = $this->input->post('no_tiket');
+    $norefund = $this->input->post('no_refund');
+    $data = array(
+      'kd_booking' => $acakhuruf
+    );
+    $data2 = array(
+      'refund_status' => 'Verify',
+      'secure_code'   => md5($norefund)
+    );
+    for($i=0; $i<count($no_tiket); $i++)
+    {
+      $this->db->where('no_tiket', $no_tiket[$i]);
+      $this->db->update('tb_pessenger', $data);
+    }
+    $this->db->where('no_refund', $norefund);
+    $this->db->update('tb_refund',$data2 );
+  }
+//---------------------------------------------------------------------
+
+
+
+
+
+
+
 }

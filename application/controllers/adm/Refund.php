@@ -6,6 +6,7 @@ class Refund extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->helper('acakhuruf');
     $this->load->model('admin/m_refund');
     //Codeigniter : Write Less Do More
     $this->load->model('admin/m_dashboard');
@@ -284,14 +285,19 @@ class Refund extends CI_Controller{
             $this->m_refund->updatePessenger();
             $this->session->set_flashdata('notifadmin', 'Konfirmasi refund berhasil, email telah dikirim kepada pemilik kode booking');
 
-            $this->m_refund->insertPessenger();
 
+            $this->m_refund->insertPessenger();
             // redirect(base_url('adm/dashboard'));
         }else{
             $this->session->set_flashdata('notifadmin','Gagal Melakukan refund, email tidak dapat kami kirim, silahkan check koneksi internet');
         redirect(base_url('adm/dashboard'));
         }
     }
+  }
+
+  function match_all()
+  {
+    $this->m_refund->match_insert_new_kodebooking();
   }
 
 

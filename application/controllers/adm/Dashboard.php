@@ -6,6 +6,7 @@ class Dashboard extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->helper('acakhuruf');
     $this->load->model('admin/m_dashboard');
     $this->load->model('admin/m_refund');
 
@@ -129,6 +130,13 @@ class Dashboard extends CI_Controller{
         'tb_detail.kd_booking' => $kd_booking
       );
        $data['getpenerbanganRefund'] = $this->m_refund->getpenerbanganRefund($norefund, $where3);
+
+
+       //where not penerbangan
+       foreach($this->m_refund->getpenerbanganRefund($norefund, $where3)->result() as $key){
+         $no_penerbangan =  $key->no_penerbangan;
+       }
+       $data['getNotpenerbangan'] = $this->m_refund->notPenerbangan($kd_booking,$no_penerbangan);
       //-------------------------------------------------------------------------------------
 
       $this->load->view('admin/v_checkdata', $data);
