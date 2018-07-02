@@ -4,11 +4,11 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-<<<<<<< HEAD
+
           <div class="col-sm-6">
-=======
+
           <div class="col-sm-6 animated fadeInUp">
->>>>>>> a98b0010e8a80ec42b0bf151cadf50584754880e
+
             <h1 class="m-0 text-dark">Data Refund</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
@@ -22,18 +22,6 @@
     <!-- /.content-header -->
     <!-- Main content -->
 
-<<<<<<< HEAD
-
-    
-
-
-
-
-
-
-
-
-=======
     <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -305,24 +293,5 @@
                 }
               });
             });
->>>>>>> a98b0010e8a80ec42b0bf151cadf50584754880e
-
-
-
-
-
-
-
-
-
-
-<<<<<<< HEAD
-  </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-=======
-      });
-    </script>
->>>>>>> a98b0010e8a80ec42b0bf151cadf50584754880e
+          });
+        </script>
