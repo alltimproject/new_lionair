@@ -10,7 +10,7 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link disabled" href="#form-1" role="tab" data-toggle="tab" id="tab-refund">
-                    <i class="material-icons">list</i> Form Refund
+                    <i class="material-icons">list</i> Form Reschedule
                   </a>
                 </li>
               </ul>

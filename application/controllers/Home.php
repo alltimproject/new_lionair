@@ -7,6 +7,7 @@ class Home extends CI_Controller{
   {
     parent::__construct();
     $this->load->model('m_user');
+    $this->load->helper('user');
   }
 
   function index()
@@ -26,9 +27,13 @@ class Home extends CI_Controller{
 			'tb_booking.kd_booking' => $kd_booking
 		);
 
+    $where2 = array(
+      'tb_booking.status' => 'Confirmed'
+    );
+
     $data['booking'] = $kd_booking;
-    $data['pessenger'] = $this->m_user->cariPessenger($where)->result();
-    $data['penerbangan'] = $this->m_user->cariPenerbangan($where)->result();
+    $data['pessenger'] = $this->m_user->cariPessenger($where, $where2)->result();
+    $data['penerbangan'] = $this->m_user->cariPenerbangan($where, $where2)->result();
 
     echo json_encode($data);
   }
@@ -46,7 +51,7 @@ class Home extends CI_Controller{
     $penerbangan = array();
     // $total_post = count($post['no_tiket']);
 
-    $kode = "RFYUGIZ";
+    $kode = 'RF'.sprintf("%03s", buatKode(4));
 
     $data = array(
       'no_refund' => $kode,
@@ -91,6 +96,12 @@ class Home extends CI_Controller{
     } else {
       echo "gagal";
     }
+  }
+
+  function form_reschedule($kd_booking)
+  {
+    $data['booking'] = $kd_booking;
+    $this->load->view('user/v_form_reschedule', $data);
   }
 
 }

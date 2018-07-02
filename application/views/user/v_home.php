@@ -25,8 +25,8 @@
   <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="https://demos.creative-tim.com/material-kit/index.html">
-          Lion System </a>
+        <a class="navbar-brand" href="http://www.lionair.co.id/id" target="_blank">
+          <img src="<?= base_url().'images/bg03.png' ?>" width="150px" alt=""> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           <span class="navbar-toggler-icon"></span>
@@ -35,36 +35,23 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="dropdown nav-item">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-              <i class="material-icons">apps</i> Components
-            </a>
-            <div class="dropdown-menu dropdown-with-icons">
-              <a href="./index.html" class="dropdown-item">
-                <i class="material-icons">layers</i> All Components
-              </a>
-              <a href="https://demos.creative-tim.com/material-kit/docs/2.0/getting-started/introduction.html" class="dropdown-item">
-                <i class="material-icons">content_paste</i> Documentation
-              </a>
-            </div>
-          </li>
           <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="scrollToDownload()">
+            <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.goquo.jt.app&hl=in" target="_blank">
               <i class="material-icons">cloud_download</i> Download
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://twitter.com/CreativeTim" target="_blank" data-original-title="Follow us on Twitter">
+            <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://twitter.com/lionairgroup" target="_blank" data-original-title="Follow us on Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/CreativeTim" target="_blank" data-original-title="Like us on Facebook">
+            <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/LionAirGroup/" target="_blank" data-original-title="Like us on Facebook">
               <i class="fa fa-facebook-square"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/CreativeTimOfficial" target="_blank" data-original-title="Follow us on Instagram">
+            <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/lionairgroup/?hl=id" target="_blank" data-original-title="Follow us on Instagram">
               <i class="fa fa-instagram"></i>
             </a>
           </li>
@@ -187,7 +174,7 @@
 
                 html += '<div class="float-right">';
                 html += '<a href="<?= base_url('home/form_refund/') ?>'+data.booking+'" id="refund" class="btn btn-md btn-danger"><strong>Refund</strong></a> ';
-                html += '<button type="button" class="btn btn-md btn-success"><strong>Reschedul<strong></button>';
+                html += '<a href="<?= base_url('home/form_reschedule/') ?>'+data.booking+'" id="reschedule" class="btn btn-md btn-info"><strong>Reschedule</strong></a> ';
                 html += '</div>';
 
                 $('.form-search')[0].reset();
@@ -202,6 +189,18 @@
       });
 
       $(document).on('click', '#refund', function(){
+        var href = $(this).attr('href');
+        $.get(href, function(data){
+          $('#data').html(data);
+
+          $("html, body").animate({
+            scrollTop: $('#data').offset().top
+          }, 1000);
+        });
+        return false;
+      });
+
+      $(document).on('click', '#reschedule', function(){
         var href = $(this).attr('href');
         $.get(href, function(data){
           $('#data').html(data);

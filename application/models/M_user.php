@@ -3,18 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_user extends CI_Model{
 
-  function cariPessenger($kd_booking)
+  function cariPessenger($kd_booking, $status)
   {
     $this->db->select('*');
     $this->db->from('tb_booking');
     $this->db->join('tb_pessenger', 'tb_pessenger.kd_booking = tb_booking.kd_booking', 'left');
 
     $this->db->where($kd_booking);
+    $this->db->where($status);
 
     return $this->db->get();
   }
 
-  function cariPenerbangan($kd_booking)
+  function cariPenerbangan($kd_booking, $status)
   {
     $this->db->select('*');
     $this->db->from('tb_detail');
@@ -22,15 +23,14 @@ class M_user extends CI_Model{
     $this->db->join('tb_penerbangan', 'tb_penerbangan.no_penerbangan = tb_detail.no_penerbangan', 'left');
 
     $this->db->where($kd_booking);
+    $this->db->where($status);
 
     return $this->db->get();
   }
 
   function saveRefund($result)
   {
-
-      return $this->db->insert('tb_refund', $result);
-
+    return $this->db->insert('tb_refund', $result);
   }
 
   function saveRefundPessenger($result = array())
