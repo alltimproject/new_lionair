@@ -81,7 +81,6 @@
 
                                  <th style="font-size:70%">No Tiket</th>
                                  <th style="font-size:70%">Nama Penumpang</th>
-
                                  <th style="font-size:70%">Tanggal Refund</th>
 
                                </tr>
@@ -131,12 +130,9 @@
 
         <div class="card">
           <div class="card-header">
-
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-
-
             <div class="row">
               <div class="col-md-6 animated fadeInUp">
                  <div class="d-flex justify-content-between">
@@ -157,7 +153,6 @@
                   </thead>
                   <tbody id="show_data_refund_verify"></tbody>
                  </table>
-
               </div>
               <div class="col-md-6">
                 <div class="d-flex justify-content-between">
@@ -165,7 +160,6 @@
                 <button class="btn btn-danger" id="">a</button>
                 </div>
                 <h6 style="color:green;" >STATUS : VERIFIKASI BERHASIL</h6>
-
                     <br>
                  <table class="table table-hover table-striped">
                   <thead>
@@ -180,16 +174,10 @@
                   <tbody>
                   </tbody>
                  </table>
-
-
               </div>
             </div>
-
-
           </div>
         </div>
-
-
 
 
         <div class="card animated fadeInUp">
@@ -392,6 +380,8 @@
         }
       });
     });
+
+
     // //--------------------------------------------- end show modal -------------------------------------------------------------------------------
     //
     $('#Modalpenumpang').on('click', '.item-penerbangan', function(){
@@ -427,9 +417,8 @@
     //
     // //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //
-    // $('#selectKdBooking').change(function(){
-    //   var kd_booking = $('#selectKdBooking').val();
 
+    // event onchange ----------------------------------------------------------
     $('#selectNorefund').change(function(){
       var no_refund = $('#selectNorefund').val();
       console.log(no_refund);
@@ -467,7 +456,7 @@
         }
       });
     });
-    //
+    //-------- get all data refund ---------------------------------------------
     function loadalldatarefund()
     {
       var jumlahdata_refund = '';
@@ -481,7 +470,7 @@
         }
       });
     }
-    //
+    //--------- end all data refund --------------------------------------------
     function getrefundverify()
     {
       var html = '';
@@ -514,6 +503,10 @@
         }
       });
     }
+    //--------------------------------------------------------------------------
+
+
+    
 
 
 
@@ -521,6 +514,5 @@
 
 
 
-
-  });
+  }); //end script document ready function
   </script>

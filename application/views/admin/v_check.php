@@ -25,10 +25,9 @@
     foreach ($checkdataid as $key ) {
       $hallo =  $key->no_tiket;
     }
+    ?>
 
-       ?>
-
-       <?= $hallo ?>
+    <?= $hallo ?>
 
 
 

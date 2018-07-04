@@ -28,7 +28,6 @@ class Refund extends CI_Controller{
     );
     $data = $this->m_refund->getdetailRefund($where);
     echo json_encode($data);
-
   }
   //----------------
 
@@ -36,13 +35,11 @@ class Refund extends CI_Controller{
   {
     $data['title'] = 'Refund';
     $this->load->view('admin/include/header', $data);
-
     $this->load->view('admin/v_refund');
-
     $this->load->view('admin/include/footer');
   }
 
-
+  // action gagal refund ---------------------------------------------------------------------------------
   function actionrefund()
   {
     if(isset($_POST['cancelrefund'])){
@@ -68,7 +65,6 @@ class Refund extends CI_Controller{
  							'crlf'      => "\r\n",
  							'newline'   => "\r\n",
  					];
-
         $config['mailtype'] = 'html';
         $this->email->initialize($config);
 
@@ -90,14 +86,17 @@ class Refund extends CI_Controller{
         }else{
           redirect(base_url('adm/dashboard'));
         }
-
     }
   }
+  // action gagal refund ---------------------------------------------------------------------------------
 
+
+
+
+  // data tiket == data penerbangan ----------------------------------------------------------------------
   function confirm_match_updatebooking()
   {
     if(isset($_POST['confirmrefund'])){
-
       //EKSEKUSI TO EMAIL PARSING//---------------------
       $kd_booking   = $this->input->post('kd_booking');
       $namalengkap  = $this->input->post('namalengkap');
@@ -111,7 +110,6 @@ class Refund extends CI_Controller{
       $wherekdbooking = array(
           'tb_detail.kd_booking' => $kd_booking
       );
-
         $config = [
               'useragent' => 'CodeIgniter',
               'protocol'  => 'smtp',
@@ -158,7 +156,9 @@ class Refund extends CI_Controller{
         }
       }
   }
+  // end data tiket == data penerbangan -------------------------------------------------------------------
 
+  // flight == flight and pessenger < pessenger -----------------------------------------------------------
   function confirm_matchpenerbangan_updatebooking()
   {
     if(isset($_POST['confirmrefundmatchpener'])){
@@ -224,8 +224,9 @@ class Refund extends CI_Controller{
       //redirect(base_url('adm/dashboard'));
     }
   }
+  //--------------------------------------------------------------------------------------------------------------------------------------------------
 
-  //------------------------------------------------------
+  // pessenger == pessenger && flight < flight  ------------------------------------------------------------------------------------------------------
   function confirm_matchpessenger_updatebooking()
   {
     if(isset($_POST['confirmrefund'])){
@@ -243,8 +244,6 @@ class Refund extends CI_Controller{
       $wherekdbooking = array(
           'tb_detail.kd_booking' => $kd_booking
       );
-
-
         $config = [
               'useragent' => 'CodeIgniter',
               'protocol'  => 'smtp',
@@ -286,7 +285,6 @@ class Refund extends CI_Controller{
             $this->m_refund->updatePessenger();
             $this->session->set_flashdata('notifadmin', 'Konfirmasi refund berhasil, email telah dikirim kepada pemilik kode booking');
 
-
             $this->m_refund->insertPessenger();
             // redirect(base_url('adm/dashboard'));
         }else{
@@ -295,7 +293,7 @@ class Refund extends CI_Controller{
         }
     }
   }
-
+  // end pessenger == pessenger && flight < flight  -----------------------------------------------------------------
   function match_all()
   {
     $this->m_refund->match_insert_new_kodebooking();

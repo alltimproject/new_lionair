@@ -267,11 +267,7 @@ foreach ($checkdataid as $key) {
                   <input type="hidden" name="email" value="<?= $email_user ?>">
                   <input type="submit" name="confirmrefund" class="btn btn-danger" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
                 </form>
-
-
-
-
-              <?php } ?>
+              <?php }  //end if ?>
             </div>
           </div>
 
