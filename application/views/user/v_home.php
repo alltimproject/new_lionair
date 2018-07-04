@@ -125,25 +125,19 @@
         if(search == '') {
           alert('Harap masukkan Kode Booking');
         } else {
-          $("html, body").animate({
-            scrollTop: $('#data').offset().top
-          }, 1000);
-
           $.ajax({
             url: '<?= base_url('home/cari_booking/') ?>'+search,
             type: 'GET',
             dataType: 'JSON',
             success: function(data){
-              if(data.data == '')
+              if(data.jumlah == 0)
               {
                 alert('Data tidak ditemukan');
               } else {
-
-
                   html += '<h3>Kode Booking : '+data.booking+'</h3>';
                   html += '<h4 class="title"> Pessenger Detail </h4>';
-                  html += '<table class="table table-responsive table-hover">';
-                  html += '<thead><tr style="background-color: aqua"><th>Pessenger Type</th><th>Pessenger Name</th><th>Ticket Number</th></tr></thead>';
+                  html += '<table class="table table-hover" style="width: 100%;">';
+                  html += '<thead><tr style="background-color: red; color: white"><th>Pessenger Type</th><th>Pessenger Name</th><th>Ticket Number</th></tr></thead>';
                   html += '<tbody>';
                   $.each(data.pessenger, function(k, v){
                     html += '<tr>';
@@ -156,8 +150,8 @@
 
 
                 html += '<h4 class="title"> Penerbangan Detail </h4>';
-                html += '<table class="table table-responsive table-hover">';
-                html += '<thead><tr style="background-color: aqua"><th>Flight</th><th>Departure</th><th>Arrival</th><th>Class</th><th>Status</th></tr></thead>';
+                html += '<table class="table table-hover" style="width: 100%;">';
+                html += '<thead><tr style="background-color: red; color: white;"><th>Flight</th><th>Departure</th><th>Arrival</th><th>Class</th><th>Status</th></tr></thead>';
                 html += '<tbody>';
 
                 $.each(data.penerbangan, function(key1, value1){
@@ -179,6 +173,10 @@
 
                 $('.form-search')[0].reset();
                 $('#data').html(html);
+
+                $("html, body").animate({
+                  scrollTop: $('.main').offset().top
+                }, 1000);
               }
             }, error: function(){
               alert('Data tidak ditemukan');
@@ -193,9 +191,9 @@
         $.get(href, function(data){
           $('#data').html(data);
 
-          $("html, body").animate({
-            scrollTop: $('#data').offset().top
-          }, 1000);
+          // $("html, body").animate({
+          //   scrollTop: $('.main').offset().top
+          // }, 1000);
         });
         return false;
       });

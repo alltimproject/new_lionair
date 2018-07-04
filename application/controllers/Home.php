@@ -34,6 +34,7 @@ class Home extends CI_Controller{
     $data['booking'] = $kd_booking;
     $data['pessenger'] = $this->m_user->cariPessenger($where, $where2)->result();
     $data['penerbangan'] = $this->m_user->cariPenerbangan($where, $where2)->result();
+    $data['jumlah'] = $this->m_user->cariPessenger($where, $where2)->num_rows();
 
     echo json_encode($data);
   }
@@ -41,7 +42,7 @@ class Home extends CI_Controller{
   function form_refund($kd_booking)
   {
     $data['booking'] = $kd_booking;
-    $this->load->view('user/v_form_refund', $data);
+    $this->load->view('user/v_form_refund2', $data);
   }
 
   function proses_refund()
