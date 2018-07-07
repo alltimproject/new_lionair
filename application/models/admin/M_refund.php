@@ -36,7 +36,7 @@ class M_refund extends CI_Model{
     $this->db->select('*');
     $this->db->from('tb_refund');
     $this->db->join('tb_pessenger','tb_pessenger.no_tiket = tb_refund.no_tiket');
-    $this->db->where('refund_status', 'on proses');
+    $this->db->where('refund_status', 'onproses');
 
     return $this->db->get()->result();
   }

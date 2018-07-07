@@ -24,17 +24,23 @@ class Home extends CI_Controller{
   function cari_booking($kd_booking)
   {
     $where = array(
-			'tb_booking.kd_booking' => $kd_booking
+			'tb_booking.kd_booking' => strtoupper($kd_booking)
 		);
 
     $where2 = array(
       'tb_booking.status' => 'Confirmed'
     );
 
-    $data['booking'] = $kd_booking;
+    $where3 = array(
+      'tb_refund.refund_status' => 'onproses'
+    );
+
+    $data['booking'] = strtoupper($kd_booking);
     $data['pessenger'] = $this->m_user->cariPessenger($where, $where2)->result();
     $data['penerbangan'] = $this->m_user->cariPenerbangan($where, $where2)->result();
+    $data['refund'] = $this->m_user->cariRefund($where, $where3)->num_rows();
     $data['jumlah'] = $this->m_user->cariPessenger($where, $where2)->num_rows();
+    $data['verifikasi'] = sprintf("%03s", kodeVerifikasi(6));
 
     echo json_encode($data);
   }
@@ -42,7 +48,7 @@ class Home extends CI_Controller{
   function form_refund($kd_booking)
   {
     $data['booking'] = $kd_booking;
-    $this->load->view('user/v_form_refund2', $data);
+    $this->load->view('user/v_form_refund', $data);
   }
 
   function proses_refund()
@@ -62,7 +68,11 @@ class Home extends CI_Controller{
       'refund_telepon' => $this->input->post('refund_telepon'),
       'refund_email' => $this->input->post('refund_email'),
       'total_refund' => $this->input->post('total_refund'),
-      'refund_status' => 'onproses'
+      'refund_status' => 'onproses',
+      'nama_bank' => $this->input->post('nama_bank'),
+      'cabang' => $this->input->post('cabang'),
+      'no_rekening' => $this->input->post('no_rekening'),
+      'nama_rekening' => $this->input->post('nama_rekening')
     );
 
     foreach($post['no_tiket'] AS $key => $val)
@@ -103,6 +113,44 @@ class Home extends CI_Controller{
   {
     $data['booking'] = $kd_booking;
     $this->load->view('user/v_form_reschedule', $data);
+  }
+
+  function mailKode()
+  {
+
+    $kode = sprintf("%03s", kodeVerifikasi(6));
+    $email_pic = $this->input->post('email_pic');
+
+    $config = array();
+    $config['protocol']   = 'smtp';
+    $config['smtp_host']  = 'ssl://smtp.gmail.com';
+    $config['smtp_port']  = '465';
+    $config['smtp_timeout'] = '5';
+    $config['smtp_user']  = 'viz.ndinq@gmail.com';
+    $config['smtp_pass']  = 'haviz06142';
+    $config['mail_type']  = 'html';
+    $config['charset']     = 'iso-8859-1';
+    // $config['charset']     = 'utf-8';
+    $config['wordwrap']    = TRUE;
+    // $config['newline']     = "\r\n";
+
+    $this->email->initialize($config);
+    $this->email->set_newline("\r\n");
+    $this->email->from('Lionair@group.com','Lion Air');
+    $this->email->to($email_pic);
+    $this->email->subject('Refund Verification Kode');
+    $message = '<p>Hi, Your Code Verification is <b>'.$kode.'</b></p>';
+    $this->email->message($message);
+
+    $cek = $this->email->send();
+
+    if($cek)
+    {
+      echo $kode;
+    } else {
+      echo "gagal";
+      // show_error($this->email->print_debugger());
+    }
   }
 
 }

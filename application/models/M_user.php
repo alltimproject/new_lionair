@@ -28,6 +28,18 @@ class M_user extends CI_Model{
     return $this->db->get();
   }
 
+  function cariRefund($kd_booking, $rfstatus)
+  {
+    $this->db->select('*');
+    $this->db->from('tb_refund');
+    $this->db->join('tb_booking', 'tb_booking.kd_booking = tb_refund.kd_booking', 'left');
+
+    $this->db->where($kd_booking);
+    $this->db->where($rfstatus);
+
+    return $this->db->get();
+  }
+
   function saveRefund($result)
   {
     return $this->db->insert('tb_refund', $result);
